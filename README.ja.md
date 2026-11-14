@@ -82,7 +82,7 @@ https://github.com/user-attachments/assets/d3063a28-5dfd-4c44-a562-be901c49b249
 
 > Answer me with HTML をインストールして：https://raw.githubusercontent.com/enjoychaim/answer-me-with-html/main/INSTALL.md を読んで、その手順に従ってください。
 
-[INSTALL.md](INSTALL.md) はエージェント向けに書かれています。Claude Code にはプラグインを、ほかのエージェントにはスキルをインストールし、既存のインストールはそのまま残します。Node.js がないか 20 より古い場合を除いて、あなたには何も尋ねず、最後に TCP の 3 ウェイハンドシェイクのページで結果を確認してから、報告を 1 回行います。エージェントがリンクを開けない場合は、`npx -y skills add enjoychaim/answer-me-with-html -g -y -a <your agent name>` を使ってください（Claude Code の場合は `-a claude-code`）。
+...をインストールし、既存のインストールはそのまま残します。Node.js がないか 20 より古い場合を除いて、あなたには何も尋ねず、最後に TCP の 3 ウェイハンドシェイクのページで結果を確認してから、報告を 1 回行います。エージェントがリンクを開けない場合は、`npx -y skills add enjoychaim/answer-me-with-html -g -y` を使ってください。
 
 ### Claude Code のプラグイン
 
@@ -104,10 +104,10 @@ dsh plugin --profile web add github:enjoychaim/answer-me-with-html
 ### 1 コマンドで
 
 ```bash
-npx skills add enjoychaim/answer-me-with-html
+npx -y skills add enjoychaim/answer-me-with-html -g -y
 ```
 
-どのエージェントにインストールするかを尋ねられます。インストーラーの [vercel-labs/skills](https://github.com/vercel-labs/skills) は 70 以上のエージェントに対応しています。
+インストーラーが利用可能なエージェントを自動検出し、スキルをグローバルにインストールします。インストーラーの [vercel-labs/skills](https://github.com/vercel-labs/skills) は 70 以上のエージェントに対応しています。
 
 <details>
 <summary>手動でのインストール</summary>

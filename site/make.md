@@ -5,7 +5,7 @@ You are an agent. Your user wants a theme for Answer me with HTML, a tool that t
 ## 1. Find the `am` command
 
 - If the Answer me with HTML skill is installed, `am` is `node <skill folder>/scripts/am.mjs`.
-- If it is not installed, install it with `npx skills add enjoychaim/answer-me-with-html`, or ask the user how they want to install it.
+- If it is not installed, install it globally with `npx -y skills add enjoychaim/answer-me-with-html -g -y`, or ask the user how they want to install it.
 - `am theme check` needs version 0.4.10 or newer. A theme's `font` field needs 0.5.3 or newer; older versions show system fonts.
 
 ## 2. Start from the closest catalog theme

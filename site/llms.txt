@@ -1,6 +1,6 @@
 # Answer me with HTML
 
-> A skill for coding agents. The agent writes a short Markdown draft, and a bundled CLI (`am`) builds one HTML page from it: diagrams, tables, callouts, light and dark. Install: `npx skills add enjoychaim/answer-me-with-html`.
+> A skill for coding agents. The agent writes a short Markdown draft, and a bundled CLI (`am`) builds one HTML page from it: diagrams, tables, callouts, light and dark. Install globally: `npx -y skills add enjoychaim/answer-me-with-html -g -y`.
 
 ## Themes
 

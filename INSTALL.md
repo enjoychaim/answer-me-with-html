@@ -72,10 +72,10 @@ The plugin loads in the next session, or after I run `/reload-plugins`. Say so i
 ### Any other agent (Codex, Cursor, OpenCode and more)
 
 ```bash
-npx -y skills add enjoychaim/answer-me-with-html -g -y -a <your agent name>
+npx -y skills add enjoychaim/answer-me-with-html -g -y
 ```
 
-You know which agent you are. Use the name that `npx -y skills add --help` documents for it. For Claude Code it is `claude-code`. If the installer does not know your name, do not guess and do not ask me: stop this step and put the error in the report, with the "Manual install" link from the README.
+The installer detects the available agents and installs the skill globally. If an agent does not support global skill installation, it may be skipped while the other installations succeed.
 
 There is no npm package: `npm install answer-me-with-html` does not work. The command above is the only way to install the skill.
 

@@ -92,7 +92,7 @@ Paste this into Claude Code, Codex, Cursor, OpenCode or any other agent:
 
 > Install Answer me with HTML: read https://raw.githubusercontent.com/enjoychaim/answer-me-with-html/main/INSTALL.md and follow it.
 
-[INSTALL.md](INSTALL.md) is written for agents. It installs the plugin in Claude Code and the skill in other agents, keeps an existing install, asks you nothing unless Node.js is missing or older than 20, and ends with one report after checking the result with the TCP three-way handshake page. If your agent cannot open links, use `npx -y skills add enjoychaim/answer-me-with-html -g -y -a <your agent name>` (for Claude Code, `-a claude-code`).
+[INSTALL.md](INSTALL.md) is written for agents. It installs the plugin in Claude Code and the skill in other agents, keeps an existing install, asks you nothing unless Node.js is missing or older than 20, and ends with one report after checking the result with the TCP three-way handshake page. If your agent cannot open links, use `npx -y skills add enjoychaim/answer-me-with-html -g -y`.
 
 ### Claude Code plugin
 
@@ -114,10 +114,10 @@ dsh plugin --profile web add github:enjoychaim/answer-me-with-html
 ### One command
 
 ```bash
-npx skills add enjoychaim/answer-me-with-html
+npx -y skills add enjoychaim/answer-me-with-html -g -y
 ```
 
-It asks which agents to install into. The installer, [vercel-labs/skills](https://github.com/vercel-labs/skills), supports more than 70 agents.
+The installer detects available agents and installs the skill globally. The installer, [vercel-labs/skills](https://github.com/vercel-labs/skills), supports more than 70 agents.
 
 <details>
 <summary>Manual install</summary>
