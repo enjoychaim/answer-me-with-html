@@ -381,6 +381,9 @@ test('cli list / help', async () => {
   assert.match((await run(['list'])).out, /flow\s+Flowchart/);
   const h = await run(['help', 'sequence']);
   assert.match(h.out, /sequence — Sequence diagram[\s\S]*Example:\n```sequence/);
+  const renderHelp = await run(['help', 'render']);
+  assert.equal(renderHelp.code, 0);
+  assert.match(renderHelp.out, /Usage:\n  am render <file\|->/);
   assert.match((await run(['help', 'format'])).out, /template: sheet/);
   assert.match((await run(['help', 'patch'])).out, /#am-source/);
   assert.equal((await run(['help', 'nope'])).code, 2);

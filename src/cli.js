@@ -56,7 +56,7 @@ Usage:
   am theme add <name> [--use] [--force]           install a theme from the catalog (answer-me-with-html.com/themes/); --use makes it the default
   am theme list [--remote] | update [name] | remove <name>  show, update or delete the themes in your themes folder
   am list                                         list templates, themes and components
-  am help [component|format|code|image|video|patch|theme|export]  show component syntax / page draft format / code block / image syntax / video draft format / patch / theme / export usage
+  am help [render|component|format|code|image|video|patch|theme|export]  show command syntax or component and draft syntax
 
 - A file argument of - reads from stdin (good for heredoc: am render - <<'EOF' ... EOF).
 - -o names an output file, for example -o page.html; it does not name a folder.
@@ -1170,6 +1170,7 @@ function cmdTheme(action, target, opts, ctx) {
 
 function cmdHelp(name, { print, fail }) {
   if (!name) return print(USAGE), 0;
+  if (name === 'render') return print(USAGE), 0;
   if (name === 'format') return print(FORMAT), 0;
   if (name === 'image') return print(IMAGE_HELP), 0;
   if (name === 'code') return print(CODE_HELP), 0;

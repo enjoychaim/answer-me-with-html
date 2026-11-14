@@ -74,6 +74,19 @@ Keep the default output; it needs no flag. If the session cannot write to `~/.an
    The draft language follows the language of the user's question: an English question gets an English draft, a Chinese question a Chinese draft, a Japanese question a Japanese draft. The page button labels, `<html lang>` and the STE check rules switch automatically by the draft language (a draft containing kana counts as Japanese); STE applies the English or Chinese rules to each sentence by its language (Japanese sentences get only the sentence-length and paragraph-length checks, with the same character limits as Chinese; any other language gets only those two checks, counted in words). To set the language yourself, write `lang:` in the frontmatter: `en`, `zh` (Simplified Chinese), `zh-Hant` or `zh-TW` (Traditional Chinese), `ja`, or any other language tag such as `fr` or `ko`. Detection reads Chinese (Simplified, or Traditional when the text has characters written in only one form), Japanese, Korean, and Cyrillic, Arabic, Hebrew, Thai and Greek text, and reads all Latin-script text as English. Declare the language when the user writes a Latin-script language other than English, when a Chinese text is too short or too plain to show Traditional characters, or when an exact tag matters (Arabic script also writes Persian, Cyrillic also Ukrainian). A language without its own labels still gets the right `<html lang>`, with English page labels.
 2. Choose components by the shape of the information (see section 4).
 3. Render in one go with a heredoc:
+Use one canonical argument order in every render call: the command, `render`, the input source `-` or a draft path, then the options. Keep `-` as the second positional argument when reading the draft from stdin.
+Use this exact form for stdin: `node "${CLAUDE_SKILL_DIR}/scripts/am.mjs" render - --no-open <<'AM_EOF'`.
+Use `am help render` or `am --help` for command syntax and `am help format` for draft syntax.
+
+```bash
+node "${CLAUDE_SKILL_DIR}/scripts/am.mjs" render - --no-open <<'AM_EOF'
+---
+title: Title
+---
+## A Panel title
+AM_EOF
+```
+
 
 ````bash
 node "${CLAUDE_SKILL_DIR}/scripts/am.mjs" render - <<'AM_EOF'
@@ -95,6 +108,7 @@ AM_EOF
    - `STE n warnings`: rewrite the flagged lines as suggested, then render again. Retry at most 2 rounds; if warnings remain, keep the last page and say so.
    - When rendering again after a `✓`, add `--replace <path from the last ✓ line>` for a page in the data directory's `pages/` or the temporary folder's `pages/`; the CLI deletes that page once the new one is written. For a page written with `-o`, reuse the same quoted `-o` HTML file path to overwrite it in place.
    - `! Cleanup hint: …` or `! Update hint: …`: pass it on to the user in one sentence at the end of the reply, and ask whether to clean up / update. **Do not run am clean or the update command yourself**; wait until the user agrees. The CLI throttles these: the cleanup hint appears at most once every 7 days, the update hint at most once every 3 days.
+If a supervised process reports an argument-order error, do not invent a new option order or retry the same command blindly. Re-run the canonical form above, preserve the draft and stderr, and classify the failure as command parsing, draft parsing, or output writing.
 5. Reply in the terminal with only 2–3 lines: one core conclusion + the page link. The 2–3 line limit is for replies to the user. If a parent agent asked for the page, also return the verification details it asked for (step 1), in full. Do not paste the draft or the HTML back into the terminal. Write this reply after the render, as the last step of the turn: render the page first, then reply. No tool call comes after the reply, except the choice tool that puts the page's asks to the user: when the page has asks and your host can ask questions (Claude Code's AskUserQuestion), write this reply first — the page link on its last line — and call that tool right after it, so the user opens the page before answering. Asking first leaves the user answering questions about a page they have not seen.
    If the render output has a `link:` line, the user runs `am serve`: use that URL as the page link instead, with the URL as the label too, and skip the local-file links below. Never start `am serve` yourself; only the user starts it.
    Otherwise, in DeepSeek Harness, write a Markdown link directly to the absolute path from the `✓` line, with the path as the label too: `[C:/Users/Name/My Pages/page.html](<C:/Users/Name/My Pages/page.html>)` on Windows or `[/abs/path.html](</abs/path.html>)` on macOS/Linux. Use forward slashes on Windows and angle brackets around the destination so spaces work. These path links open the Document Preview panel.
