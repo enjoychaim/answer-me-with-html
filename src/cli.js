@@ -69,7 +69,7 @@ const FORMAT = `Draft format (extended Markdown)
 
 ---
 template: sheet        # sheet: blueprint board (default, multi-panel grid) | doc: linear explainer (one column + contents)
-theme: auto            # auto (default): paper for the doc template or text only, blueprint with diagrams | blueprint | shadcn | paper; switchable in the page
+theme: shadcn           # shadcn (default): card theme | auto | blueprint | shadcn | paper; switchable in the page
 title: Page title      # or use "# Title" as the first line of the body
 subtitle: Subtitle     # optional
 file: tcp-handshake    # optional: the file name, ASCII letters and digits; use it when the title has few or none
@@ -345,7 +345,7 @@ async function cmdRender(src, opts, ctx, baseDir, from) {
   await loadMath(src);
   let result;
   try {
-    result = renderDoc(src, { theme: opts.theme, template: opts.template, style: opts.style, mode: opts.mode }, { theme, mode, style }, { themes: ctx.themes, baseDir, codeDir: ctx.io.cwd ?? process.cwd(), update: updateFor(config, ctx), closeAfter: config.values.close_after_reply, colophon: config.values.colophon, scale: config.values.scale });
+    result = renderDoc(src, { theme: opts.theme, template: opts.template, style: opts.style, mode: opts.mode }, { theme, mode, style }, { themes: ctx.themes, baseDir, codeDir: ctx.io.cwd ?? process.cwd(), update: updateFor(config, ctx), closeAfter: config.values.close_after_reply, colophon: config.values.colophon, toolbar: config.values.toolbar, scale: config.values.scale });
   } catch (e) {
     return reportDraftError(e, src, from, ctx);
   }
@@ -504,7 +504,7 @@ am theme add <name> [--use] [--force]
 - It asks nothing else. The catalog address can be moved with the AM_CATALOG_URL environment variable (an https URL of an index.json; http only for localhost).
 am theme list [--remote]     built-in themes, then your themes with version and source (catalog, catalog edited, local) and files that cannot be used; --remote also reads the catalog and marks updates and themes you do not have
 am theme update [name]       update themes installed from the catalog; a file you changed is skipped (am theme add <name> --force replaces it)
-am theme remove <name>       delete a theme file (not a built-in theme); if it was the default theme, the default is auto again
+am theme remove <name>       delete a theme file (not a built-in theme); if it was the default theme, the default is shadcn again
 - Where each theme came from is recorded in state.json (catalogThemes). Needs Answer me with HTML 0.5.3 or newer; before that, save the file by hand (see the catalog page).
 
 Your own theme: one JSON file per theme in ~/.answer-me-with-html/themes/ (AM_HOME moves it)
@@ -620,7 +620,7 @@ async function cmdPatch(htmlArg, fromArg, opts, ctx) {
       // Video pages also keep the original page's theme, mode and STE strictness (e.g. 3b1b / --style off); this command's arguments win.
       result = await buildVideo(patched, voice, { ...opts, theme: overrides.theme, mode: overrides.mode, style: overrides.style, previousLanguage: page.lang }, config, ctx);
     } else {
-      result = renderDoc(patched, overrides, { theme, mode, style }, { themes: ctx.themes, previousLanguage: page.lang, baseDir: cwd, codeDir: cwd, knownImages: readEmbeddedImages(html), knownCode: readEmbeddedCode(html), update: updateFor(config, ctx), closeAfter: config.values.close_after_reply, colophon: config.values.colophon, scale: page.scale });
+      result = renderDoc(patched, overrides, { theme, mode, style }, { themes: ctx.themes, previousLanguage: page.lang, baseDir: cwd, codeDir: cwd, knownImages: readEmbeddedImages(html), knownCode: readEmbeddedCode(html), update: updateFor(config, ctx), closeAfter: config.values.close_after_reply, colophon: config.values.colophon, toolbar: config.values.toolbar, scale: page.scale });
     }
   } catch (e) {
     if (e instanceof TtsError) {
@@ -1158,7 +1158,7 @@ function cmdTheme(action, target, opts, ctx) {
   const themes = isFile ? loadThemes(amHome(env), { extra: path }) : ctx.themes;
   const config = readConfig(env, themes);
   const files = ['light', 'dark'].map((mode) => {
-    const result = renderDoc(specimenDraft(name, mode), { theme: name, mode, style: 'off' }, {}, { themes, colophon: config.values.colophon });
+    const result = renderDoc(specimenDraft(name, mode), { theme: name, mode, style: 'off' }, {}, { themes, colophon: config.values.colophon, toolbar: config.values.toolbar });
     const file = outputPath('pages', `theme-${name}-${mode}`, {}, ctx);
     writePage(file, result.html, env);
     print(`✓ ${file}`);

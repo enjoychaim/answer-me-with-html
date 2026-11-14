@@ -25,8 +25,8 @@ Explore Zapply's Chrome extension for autofilling job applications, dedicated jo
 </p>
 
 <p align="center">
-  <a href="https://github.com/QingYunA/answer-me-with-html/releases"><img src="https://img.shields.io/github/v/release/QingYunA/answer-me-with-html?style=flat-square&logo=github&labelColor=16181d&color=2ea44f" alt="Release"></a>
-  <a href="https://github.com/QingYunA/answer-me-with-html/stargazers"><img src="https://img.shields.io/github/stars/QingYunA/answer-me-with-html?style=flat-square&logo=github&labelColor=16181d&color=2ea44f" alt="Stars"></a>
+  <a href="https://github.com/enjoychaim/answer-me-with-html/releases"><img src="https://img.shields.io/github/v/release/enjoychaim/answer-me-with-html?style=flat-square&logo=github&labelColor=16181d&color=2ea44f" alt="Release"></a>
+  <a href="https://github.com/enjoychaim/answer-me-with-html/stargazers"><img src="https://img.shields.io/github/stars/enjoychaim/answer-me-with-html?style=flat-square&logo=github&labelColor=16181d&color=2ea44f" alt="Stars"></a>
   <img src="https://img.shields.io/badge/works%20with-Claude%20Code%20%C2%B7%20Codex%20%C2%B7%20Cursor%20%C2%B7%20OpenCode%20%C2%B7%20Pi%20%C2%B7%20DeepSeek%20Harness-2ea44f?style=flat-square&labelColor=16181d" alt="Works with Claude Code, Codex, Cursor, OpenCode, Pi, DeepSeek Harness">
   <a href="https://www.theagenticleaderboard.com/alternatives/answer-me-with-html/"><img src="https://www.theagenticleaderboard.com/badges/new/answer-me-with-html.svg" alt="The New 100"></a>
   <a href="https://ko-fi.com/yunqing_love"><img src="https://img.shields.io/badge/Ko--fi-support-ff5e5b?style=flat-square&logo=kofi&logoColor=white&labelColor=16181d" alt="Support on Ko-fi"></a>
@@ -79,7 +79,7 @@ https://github.com/user-attachments/assets/1f13b1fe-70a9-4c39-8530-b12e553e17ea
 
 <p align="center"><sub>同一个问题、同一个模型，两种做法各答一遍，两页都能用。</sub></p>
 
-token 数存在 [bench/corpus/tokens.json](bench/corpus/tokens.json) 里，运行 `node bench/corpus.mjs` 每次都得到同样的数字。页面本身可以[下载](https://github.com/QingYunA/answer-me-with-html/releases/download/v0.4.14/bench-corpus-2026-10-07.zip)。花费降得比 token 少，这里约便宜 15%，因为每一轮都还要读系统提示、你的问题和对话记录，用不用 skill 都一样。详见[花费都花在哪](bench/README.md#where-the-cost-goes)。
+token 数存在 [bench/corpus/tokens.json](bench/corpus/tokens.json) 里，运行 `node bench/corpus.mjs` 每次都得到同样的数字。页面本身可以[下载](https://github.com/enjoychaim/answer-me-with-html/releases/download/v0.4.14/bench-corpus-2026-10-07.zip)。花费降得比 token 少，这里约便宜 15%，因为每一轮都还要读系统提示、你的问题和对话记录，用不用 skill 都一样。详见[花费都花在哪](bench/README.md#where-the-cost-goes)。
 
 解释视频省得更多：在[一次小测试](bench/README.md#explainer-videos)里，输出 token 少约 18 倍，快约 12 倍。
 
@@ -91,16 +91,16 @@ token 数存在 [bench/corpus/tokens.json](bench/corpus/tokens.json) 里，运�
 
 把下面这段话粘贴给你的 Agent。Claude Code、Codex、Cursor、OpenCode 都可以：
 
-> 帮我安装 Answer me with HTML：读 https://raw.githubusercontent.com/QingYunA/answer-me-with-html/main/INSTALL.md，照着做。
+> 帮我安装 Answer me with HTML：读 https://raw.githubusercontent.com/enjoychaim/answer-me-with-html/main/INSTALL.md，照着做。
 
-[INSTALL.md](INSTALL.md) 是写给 Agent 看的。它在 Claude Code 里装插件，在其他 Agent 里装 skill，已有安装会保留，除非缺少 Node.js 或版本低于 20，否则全程不向你提问，用"TCP 三次握手"页面验证后给你一份汇报。如果你的 Agent 打不开链接，用 `npx -y skills add QingYunA/answer-me-with-html -g -y -a <你的 Agent 名>`（Claude Code 是 `-a claude-code`）。
+[INSTALL.md](INSTALL.md) 是写给 Agent 看的。它在 Claude Code 里装插件，在其他 Agent 里装 skill，已有安装会保留，除非缺少 Node.js 或版本低于 20，否则全程不向你提问，用"TCP 三次握手"页面验证后给你一份汇报。如果你的 Agent 打不开链接，用 `npx -y skills add enjoychaim/answer-me-with-html -g -y -a <你的 Agent 名>`（Claude Code 是 `-a claude-code`）。
 
 ### Claude Code 插件
 
 在 Claude Code 里执行：
 
 ```
-/plugin marketplace add QingYunA/answer-me-with-html
+/plugin marketplace add enjoychaim/answer-me-with-html
 /plugin install answer-me-with-html@answer-me-with-html
 ```
 
@@ -109,13 +109,13 @@ token 数存在 [bench/corpus/tokens.json](bench/corpus/tokens.json) 里，运�
 在终端里执行。换成你在用的 profile，自带的是 `web`：
 
 ```bash
-dsh plugin --profile web add github:QingYunA/answer-me-with-html
+dsh plugin --profile web add github:enjoychaim/answer-me-with-html
 ```
 
 ### 一条命令
 
 ```bash
-npx skills add QingYunA/answer-me-with-html
+npx skills add enjoychaim/answer-me-with-html
 ```
 
 它会问你装到哪个 Agent。安装器来自 [vercel-labs/skills](https://github.com/vercel-labs/skills)，支持 70 多种 Agent。
@@ -126,7 +126,7 @@ npx skills add QingYunA/answer-me-with-html
 把 `skills/answer-me-with-html` 这个目录放进你的 Agent 的 skill 目录就行。以 Claude Code 为例：
 
 ```bash
-git clone --depth 1 https://github.com/QingYunA/answer-me-with-html.git /tmp/answer-me-with-html
+git clone --depth 1 https://github.com/enjoychaim/answer-me-with-html.git /tmp/answer-me-with-html
 cp -R /tmp/answer-me-with-html/skills/answer-me-with-html ~/.claude/skills/answer-me-with-html
 ```
 
@@ -297,7 +297,7 @@ Agent 会按信息的形状挑组件：
 ## 开发
 
 ```bash
-git clone https://github.com/QingYunA/answer-me-with-html.git && cd answer-me-with-html
+git clone https://github.com/enjoychaim/answer-me-with-html.git && cd answer-me-with-html
 npm install
 npm test          # 跑测试
 AM_E2E=1 npm test # 连同视频端到端测试一起跑（需要系统 TTS、Chrome、ffmpeg）
@@ -319,15 +319,15 @@ npm run snapshot  # 与 origin/main 对比生成的 HTML（重构不能改变它
 - [LINUX DO](https://linux.do) 中文开发者论坛
 - [AtomGit](https://atomgit.com/weixin_43367137/answer-me-with-html)
 
-发现 bug 请提 [GitHub issue](https://github.com/QingYunA/answer-me-with-html/issues)。
+发现 bug 请提 [GitHub issue](https://github.com/enjoychaim/answer-me-with-html/issues)。
 
 ## Star 历史
 
-<a href="https://star-history.com/#QingYunA/answer-me-with-html&Date">
+<a href="https://star-history.com/#enjoychaim/answer-me-with-html&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=QingYunA/answer-me-with-html&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=QingYunA/answer-me-with-html&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=QingYunA/answer-me-with-html&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=enjoychaim/answer-me-with-html&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=enjoychaim/answer-me-with-html&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=enjoychaim/answer-me-with-html&type=Date" />
   </picture>
 </a>
 

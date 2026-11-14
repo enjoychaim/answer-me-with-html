@@ -29,6 +29,7 @@ const TRADITIONAL = '## A 甲\n這是繁體中文的內容。\n## B 乙\n另一�
 const NEUTRAL_PANEL = '## A 甲\n三次握手。\n'; // lang-ok: draft text under test
 
 test('cli patch: a detected Traditional Chinese page stays Traditional when the new panel shows no script', async () => {
+  assert.equal((await run(['config', 'set', 'toolbar', 'on'])).code, 0);
   assert.equal((await run(['render', '-', '-o', 'trad.html'], TRADITIONAL)).code, 0);
   assert.equal(htmlLangOf('trad.html'), 'zh-Hant');
   const patched = await run(['patch', 'trad.html', '--panel', '甲'], NEUTRAL_PANEL); // lang-ok: panel name under test

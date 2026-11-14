@@ -28,7 +28,7 @@ import { catalogIndex, detailValues, readCatalog, wallHtml } from './catalog.mjs
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const SITE = join(ROOT, 'site');
 const SRC = join(SITE, 'src');
-const REPO = 'QingYunA/answer-me-with-html';
+const REPO = 'enjoychaim/answer-me-with-html';
 // Where the site is published (GitHub Pages with a custom domain). Absolute URLs in the pages (canonical, hreflang, share images) start here.
 const SITE_URL = 'https://answer-me-with-html.com/';
 // The visit counter is served from a subdomain of the site, so the analytics server behind it stays private.

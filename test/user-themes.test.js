@@ -10,7 +10,7 @@ import { main } from '../src/cli.js';
 import { themeNames, getTheme } from '../src/themes/registry.js';
 
 let home;
-beforeEach(() => { home = mkdtempSync(join(tmpdir(), 'am-user-themes-')); });
+beforeEach(() => { home = mkdtempSync(join(tmpdir(), 'am-user-themes-')); writeFileSync(join(home, 'config.json'), '{"toolbar":true}\n'); });
 afterEach(() => rmSync(home, { recursive: true, force: true }));
 
 async function run(args, stdin = '') {
@@ -72,7 +72,7 @@ test('user theme: every page carries all installed user themes, with their CSS a
   install('notes', notesTheme());
   const html = pageOf(await run(['render', '-', '--no-open'], DRAFT));
   // The page keeps its own built-in theme, but the picker lists every installed user theme after the built-in ones.
-  assert.match(html, /data-theme="paper"/);
+  assert.match(html, /data-theme="shadcn"/);
   assert.deepEqual(Object.keys(labels(html)), [...themeNames('page'), 'notes', 'zine']);
   assert.equal(labels(html).zine, 'Zine');
   // A non-current theme applies only when it is selected: its tokens and its decoration are scoped to its own root.

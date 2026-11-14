@@ -3,7 +3,7 @@
 // Remote text never reaches the output: only theme names (a-z, 0-9, -) and x.y.z versions from the catalog are printed.
 import { join } from 'node:path';
 import { VERSION } from './assets.js';
-import { amHome, readConfig, setConfig, resetConfig, ConfigError } from './config.js';
+import { amHome, readConfig, setConfig, resetConfig, CONFIG_KEYS, ConfigError } from './config.js';
 import { newer } from './version.js';
 import { NAME } from './themes/check.js';
 import { BUILTIN, BUILTIN_NAMES, loadThemes } from './themes/registry.js';
@@ -196,7 +196,7 @@ function removeTheme(name, { print, fail, env }) {
   print(`✓ Removed ${join(themesDir(home), `${name}.json`)}`);
   if (wasDefault) {
     resetConfig('theme', env);
-    print(`! ${name} was the default theme; the default is auto again`);
+    print(`! ${name} was the default theme; the default is ${CONFIG_KEYS.theme.default} again`);
   }
   print('  Pages already made keep their look: a page embeds the themes it was made with.');
   return 0;

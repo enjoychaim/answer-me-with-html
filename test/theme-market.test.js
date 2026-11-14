@@ -113,7 +113,7 @@ test('theme add: downloads, verifies and writes the file, and records the instal
   assert.deepEqual(readFileSync(join(themeDir(home), 'comic.json')), files.comic);
   assert.deepEqual(state(home).catalogThemes, { comic: { version: '1.0.0', sha256: sha(files.comic) } });
   assert.deepEqual(readdirSync(themeDir(home)), ['comic.json'], 'no temporary file is left');
-  assert.equal((await run(home, ['config', 'get', 'theme'])).out.trim(), 'auto', 'without --use the default theme is not changed');
+  assert.equal((await run(home, ['config', 'get', 'theme'])).out.trim(), 'shadcn', 'without --use the default theme is not changed');
 });
 
 test('theme add --use: also sets the default theme, and a render uses it with the font embedded once', async () => {
@@ -285,7 +285,7 @@ test('theme add: a different file is never replaced without --force, an identica
   assert.match(refused.err, /already exists and differs from the catalog version of comic.*am theme add comic --force/);
   assert.deepEqual(readFileSync(join(themeDir(home), 'comic.json')), mine);
   assert.equal((await run(home, ['theme', 'add', 'comic', '--use'])).code, 1);
-  assert.equal((await run(home, ['config', 'get', 'theme'])).out.trim(), 'auto', 'a refused add does not set the default theme');
+  assert.equal((await run(home, ['config', 'get', 'theme'])).out.trim(), 'shadcn', 'a refused add does not set the default theme');
 
   const forced = await run(home, ['theme', 'add', 'comic', '--force']);
   assert.equal(forced.code, 0, forced.all);
@@ -408,10 +408,10 @@ test('theme remove: deletes the file and its record, and resets the default them
   const r = await run(home, ['theme', 'remove', 'comic']);
   assert.equal(r.code, 0, r.all);
   assert.match(r.out, /^✓ Removed .*comic\.json/m);
-  assert.match(r.out, /^! comic was the default theme; the default is auto again$/m);
+  assert.match(r.out, /^! comic was the default theme; the default is shadcn again$/m);
   assert.ok(!existsSync(join(themeDir(home), 'comic.json')));
   assert.deepEqual(Object.keys(state(home).catalogThemes), ['manga']);
-  assert.equal((await run(home, ['config', 'get', 'theme'])).out.trim(), 'auto');
+  assert.equal((await run(home, ['config', 'get', 'theme'])).out.trim(), 'shadcn');
   assert.doesNotMatch((await run(home, ['config'])).all, /cannot be used/);
 
   const other = await run(home, ['theme', 'remove', 'manga']);
