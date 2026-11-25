@@ -421,10 +421,10 @@ am serve --tailscale  # 只监听 Tailscale 地址；tailnet 内的任何设备�
 
 **清理**：页面、视频和配音缓存都存在 `~/.answer-me-with-html/`。目录超过 200 MB，或超过 20 MB 且 30 天没清理过，Agent 会问你要不要清理，每周最多问一次。没有你的同意，什么都不会删。
 
-- `/answer-me-with-html:clean`（插件），或者直接说"清理一下页面"：先预演，再问你。
+- 用 `/answer-me-with-html:clean`（插件），或选中独立安装的 skill 并传入 `clean`。Agent 会先预演，再请你确认。
 - `am clean`：删除 30 天前的页面、视频和存下的草稿，清空配音缓存。`--days N` 改天数，`--all` 删除全部页面、视频和草稿，`--dry-run` 只看不删。配置和主题始终保留。如果 `pages`、`videos` 或 `cache` 本身是软链接，会被跳过：`am clean` 不会碰链接指向的文件，用量统计和清理提示也不再计入。如果这些目录无法遍历（比如没有读权限），同样会被跳过：其中的文件不计入用量统计和清理提示，显示的大小可能低于实际占用，清理也不会删除它们。
 
-**旧的高频模式插件。** 仓库里已经删掉它，但你本机的副本会一直注入提醒，直到你卸载。先执行 `/plugin uninstall answer-me-with-html-always@answer-me-with-html`，再按 [README](../README.zh-CN.md#高频模式推荐) 加上高频模式的规则。
+**旧版自动调用。** 如果曾开启自动调用，请从 Agent 的规则文件移除对应规则。如果仍装有旧插件 `answer-me-with-html-always`，用 `/plugin uninstall answer-me-with-html-always@answer-me-with-html` 卸载。
 
 ## 配置
 
@@ -445,17 +445,9 @@ am serve --tailscale  # 只监听 Tailscale 地址；tailnet 内的任何设备�
 
 `close_after_reply` 只对开启期间生成的页面生效。`am serve` 提供的页面会把作答存在服务端，所以开启后作答不会随标签页一起消失，剪贴板里仍有回复。页面里的链接（比如目录链接）跳转过之后，浏览器会拒绝关闭标签页，这时页面会提示你自己关闭。
 
-## 少一点主动
+## 调用 Skill
 
-默认情况下，只要页面更好懂，agent 就会出页面。嫌太多的话，有两种办法。两种都不要和高频模式同时用。
-
-**只在你用话要求时出。** 把这条规则加到你的规则文件里，例如 `~/.claude/CLAUDE.md` 或 `AGENTS.md`：
-
-> 除非我要求生成页面、图示或可视化讲解，或者说我没看懂，否则不要使用 answer-me-with-html skill。
-
-这条规则在更新后还在。agent 仍然看得到这个 skill，所以靠自己的判断遵守规则。
-
-**只用斜杠命令触发（Claude Code）。** 在已安装的 `SKILL.md` 的 frontmatter 里加一行 `disable-model-invocation: true`，例如 `~/.claude/skills/answer-me-with-html/SKILL.md`。之后 agent 完全看不到这个 skill，只有你输入 `/answer-me-with-html` 才会出页面。更新会替换这个文件，更新后要重新加这一行。见 [Claude Code skills 文档](https://code.claude.com/docs/en/skills)。
+每次需要时都显式选择 `answer-me-with-html`。Claude Code 插件使用 `/answer-me-with-html:answer-me-with-html`，独立安装的 Claude Code skill 使用 `/answer-me-with-html`。skill 自带 Claude Code 的 `disable-model-invocation: true` 配置。支持按名称选择的 Agent 可以直接接收「用 `answer-me-with-html` skill」这样的请求。斜杠命令详见 [Claude Code skills 文档](https://code.claude.com/docs/en/skills)。
 
 ## 写作检查
 

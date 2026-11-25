@@ -55,3 +55,9 @@ test('frontmatter: the SKILL.md name matches its directory name', () => {
     assert.equal(frontmatter(join('skills', dir, 'SKILL.md')).name, dir);
   }
 });
+
+test('frontmatter: Claude Code requires user invocation of answer-me-with-html', () => {
+  const fm = frontmatter('skills/answer-me-with-html/SKILL.md');
+  assert.equal(fm['disable-model-invocation'], true);
+  assert.notEqual(fm['user-invocable'], false);
+});

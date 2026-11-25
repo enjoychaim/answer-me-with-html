@@ -27,13 +27,13 @@
 </p>
 
 <p align="center">
-  <a href="https://answer-me-with-html.com/"><b>Web サイト</b></a> · <a href="#インストール">インストール</a> · <a href="#質問すると返ってくるもの">例</a> · <a href="#解説動画">動画</a> · <a href="#常時モード推奨">常時モード</a> · <a href="docs/reference.md">リファレンス</a> · <a href="README.md">English</a> · <a href="README.zh-CN.md">简体中文</a>
+  <a href="https://answer-me-with-html.com/"><b>Web サイト</b></a> · <a href="#インストール">インストール</a> · <a href="#質問すると返ってくるもの">例</a> · <a href="#解説動画">動画</a> · <a href="#スキルの呼び出し">スキルの呼び出し</a> · <a href="docs/reference.md">リファレンス</a> · <a href="README.md">English</a> · <a href="README.zh-CN.md">简体中文</a>
 </p>
 
 インストールしたら、いつもどおりに質問してください。
 
 ```
-> Explain the TCP three-way handshake
+> `answer-me-with-html` スキルで TCP の 3 ウェイハンドシェイクを説明して。
 > Map out how the modules in this repo fit together
 > Redis or Memcached for our cache?
 ```
@@ -123,9 +123,11 @@ cp -R /tmp/answer-me-with-html/skills/answer-me-with-html ~/.claude/skills/answe
 
 </details>
 
-インストール後の設定は不要です。**[常時モード](#常時モード推奨)をオンにすることをおすすめします**。そうすると、難しい質問だけでなく、すべての結論にエージェントがページを添えるようになります。必要なのは、ルールファイルに 1 つのルールを書くことだけです。
+インストール後の設定は不要です。使うときは、依頼の中で[スキルを明示的に選択](#スキルの呼び出し)します。
 
 ## 質問すると返ってくるもの
+
+`answer-me-with-html` を選択してから、次のように質問できます。
 
 | 質問 | 返ってくるもの |
 | :--- | :--- |
@@ -137,8 +139,6 @@ cp -R /tmp/answer-me-with-html/skills/answer-me-with-html ~/.claude/skills/answe
 | 「キャッシュの変更を計画して」 | あなたのファイルの実際のコードと、ページ上で答える選択肢としての未決事項 |
 | 「`ls` で隠しファイルを表示するには？」 | ページなし。1 行の質問には 1 行で答えます |
 
-ページにする価値があるかどうかは、エージェントが判断します。関連する概念、複数ステップの流れ、多方面の比較などです。「HTML で説明して」と言うだけでもかまいません。
-
 ページは `~/.answer-me-with-html/pages/` に保存されます。右上のボタンで、テーマとライト / ダークモードの切り替え、あなたの返信の取りまとめ、ページの元になった Markdown のコピーができます。
 
 ## Archify や GenUI プラグインとは何が違うのか？
@@ -147,7 +147,7 @@ cp -R /tmp/answer-me-with-html/skills/answer-me-with-html ~/.claude/skills/answe
 
 ## 解説動画
 
-LLM の出力を理解するための Karpathy のはしごは、解説動画で終わります。3Blue1Brown のスタイルで頼んでみてください：「TCP ハンドシェイクについて 3b1b スタイルの動画を作って」。
+`answer-me-with-html` を選択してから、「TCP ハンドシェイクについて 3b1b スタイルの動画を作って」のように頼むと、3Blue1Brown スタイルの解説動画を作れます。
 
 <p align="center"><img src="docs/images/video-en.png" alt="blueprint スタイルで生成された解説動画の 4 つのフレーム。タイトルカード、Server が強調されたシーケンス図、フロー図、比較表" width="820"></p>
 
@@ -172,24 +172,18 @@ Server -> Client: SYN-ACK
 | 場所 | 方法 |
 | :--- | :--- |
 | Claude Code（プラグインでのインストール） | `/answer-me-with-html:config` で何を変更するかを尋ねられます。`/answer-me-with-html:config open off` で直接変更します |
-| すべてのエージェント | `/answer-me-with-html config open off`、または「ブラウザーを開かないで」と言うだけです |
+| 単体でインストールしたスキル | `answer-me-with-html` を選択し、`config open off` を渡す |
 | ターミナル | 表示は `am config`、変更は `am config set open off`、デフォルトに戻すには `am config reset` |
 
 設定は `open`（ページをブラウザーで開く）、`theme`、`mode`（ライトまたはダーク）、`style`（文章チェック）、`scale`（ページの文字サイズ。図とグラフも合わせて大きくなります）、`update_check`、`close_after_reply`（返信をコピーしたらタブを閉じる）、`voice`（動画のナレーション）です。デフォルトと値：[リファレンス](docs/reference.md#settings)。
 
-## 常時モード（推奨）
+## スキルの呼び出し
 
-常時モードでは、**すべての結論にページが付きます**。エージェントが結論、要約、計画、比較を示すときは、短いものでも、2 ～ 4 個のパネルからなる小さなページを追加し、返信の最後にそのパスを置きます。これらのページが自動で開くことはないので、作業を邪魔しません。雑談や、結論のない返信はそのままです。Claude Code は、プランモードではページを作りません。
-
-デフォルトではオフです。おすすめします。ページを頼む必要がなくなり、短い答えも長い答えと同じくらい読みやすくなります。ページは `~/.answer-me-with-html/` にたまっていくので、`am clean` で消してください。オンにするには、次の文をエージェントに貼り付けて、`~/.claude/CLAUDE.md` や `AGENTS.md` などのルールファイルにルールを書いてもらいます。
-
-> Turn on always-on mode for Answer me with HTML: add a global rule — "[answer-me-with-html always-on] Whenever a reply gives a conclusion, summary, plan, comparison, review or explanation, even a short one, also make a page with the answer-me-with-html skill (2 to 4 panels for routine answers), render it with --no-open before you write the reply, and end the reply with the page link in the format SKILL.md specifies for your host. Skip casual chat, one- or two-sentence replies with no conclusion, pure command output, and requests for plain text. An internal report to another agent is not a user reply: return the findings and evidence the parent asked for, and make no page unless the task explicitly asks for one."
-
-オフにするには、そのルールを削除します。ページの数を減らしたい場合は、[控えめにする](docs/reference.md#less-proactive)をご覧ください。
+使いたい依頼ごとに `answer-me-with-html` を明示的に選択します。Claude Code のプラグインでは `/answer-me-with-html:answer-me-with-html`、単体インストールでは `/answer-me-with-html` を使います。名前で選択できるエージェントでは、「`answer-me-with-html` スキルを使って」と依頼します。
 
 ## 更新と後片付け
 
-更新は手動です。CLI は使われたときに、バックグラウンドで GitHub の新しいバージョンを 1 日に 1 回まで確認します。新しいバージョンがあれば、エージェントに 3 日に 1 回まで知らせます。あなたに関する情報は何も送信されません。更新するには、エージェントに「answer-me-with-html を更新して」と伝えます。ページは `~/.answer-me-with-html/` にたまっていきます。「ページを片付けて」と言えば、エージェントは何かを削除する前に確認します。ほかのインストール方法とすべてのオプション：[リファレンス](docs/reference.md#updating-and-cleaning-up)。
+更新は手動です。CLI は使われたときに、バックグラウンドで GitHub の新しいバージョンを 1 日に 1 回まで確認し、見つかれば 3 日に 1 回まで知らせます。更新するには `answer-me-with-html` を指定して依頼します。`~/.answer-me-with-html/` にたまったページを片付けるには、`/answer-me-with-html:clean` を使うか、スキルを選択して `clean` を渡します。削除前に確認が入ります。ほかのインストール方法とオプションは[リファレンス](docs/reference.md#updating-and-cleaning-up)をご覧ください。
 
 ## 背景
 

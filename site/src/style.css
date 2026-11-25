@@ -529,8 +529,8 @@ main { display: block; padding: clamp(20px, 4vw, 48px) 0 0; }
 }
 .copy-btn:hover, .tcopy-btn:hover { background: var(--ink); color: var(--paper); }
 .copy-btn.is-done, .tcopy-btn.is-done { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.always { border: var(--bw) solid var(--line); padding: 20px; background: var(--bg); }
-.always > p { margin: 0 0 14px; color: var(--ink-2); font-size: 15px; }
+.skill-invocation { border: var(--bw) solid var(--line); padding: 20px; background: var(--bg); }
+.skill-invocation > p { margin: 0 0 14px; color: var(--ink-2); font-size: 15px; }
 .reqs { display: flex; flex-wrap: wrap; margin: clamp(28px, 4vw, 40px) 0 0; border: var(--bw) solid var(--line); }
 .reqs > div { flex: 1 1 160px; padding: 10px 14px; border-right: 1px solid var(--line); }
 .reqs > div:last-child { border-right: 0; }

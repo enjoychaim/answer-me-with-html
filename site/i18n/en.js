@@ -27,8 +27,6 @@ Server -> Client: SYN-ACK
 > The client sends a SYN to ask for a connection.
 > The [Server] answers with a SYN-ACK.`;
 
-const ALWAYS_RULE = 'Turn on always-on mode for Answer me with HTML: add a global rule — "[answer-me-with-html always-on] Whenever a reply gives a conclusion, summary, plan, comparison, review or explanation, even a short one, also make a page with the answer-me-with-html skill (2 to 4 panels for routine answers), render it with --no-open before you write the reply, and end the reply with the page link in the format SKILL.md specifies for your host. Skip casual chat, one- or two-sentence replies with no conclusion, pure command output, and requests for plain text. An internal report to another agent is not a user reply: return the findings and evidence the parent asked for, and make no page unless the task explicitly asks for one."';
-
 // Strings the scripts read at run time ({n}, {ms} … are filled in by the script).
 const ui = {
   lang: 'en',
@@ -317,7 +315,7 @@ export default {
   s6_catalog: 'Browse the theme catalog',
 
   s7_title: 'Explainer videos',
-  s7_lede: 'Karpathy’s ladder for understanding LLM output ends with explainer videos. Ask for one, for example “make a 3b1b-style video on the TCP handshake”. The player below is a real <code>am video</code> page.',
+  s7_lede: 'Select <code>answer-me-with-html</code> and ask for a video, for example “make a 3b1b-style video on the TCP handshake”. The player below is a real <code>am video</code> page.',
   s7_frame_title: 'An explainer video player page made by am video',
   video_page: 'video-en.html',
   v1_t: 'Built step by step',
@@ -388,11 +386,11 @@ export default {
   i_manual: 'Manual',
   i_manual_d: 'Copy the <code>skills/answer-me-with-html</code> folder into your agent’s skill folder. For Claude Code:',
   i_manual_note: 'Other agents: Codex <code>~/.codex/skills/</code>, Cursor <code>~/.cursor/skills/</code>, OpenCode <code>~/.config/opencode/skill/</code>.',
-  i_always_k: 'Recommended',
-  i_always_t: 'Always-on mode',
-  i_always_d: 'By default the agent makes a page only for questions that need one. With always-on mode, every conclusion, summary, plan or comparison comes with a small page of 2 to 4 panels. These pages never pop open. Paste this to your agent so it writes the rule into its own rules file:',
-  i_always_prompt: ALWAYS_RULE,
-  i_always_note: 'To turn it off, delete the rule from the file.',
+  i_invoke_k: 'Usage',
+  i_invoke_t: 'Invoke the skill',
+  i_invoke_d: 'Select the skill in each request that should use it. If your agent supports selection by name, try:',
+  i_invoke_prompt: 'Use the answer-me-with-html skill to explain the TCP three-way handshake.',
+  i_invoke_note: 'In Claude Code, type <code>/answer-me-with-html:answer-me-with-html</code> for the plugin or <code>/answer-me-with-html</code> for a standalone skill, followed by your question.',
   i_req_k: 'Needs',
   i_req_npm: 'not needed',
   i_req_net: 'Network',

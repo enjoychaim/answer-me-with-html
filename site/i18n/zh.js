@@ -27,8 +27,6 @@ Server -> Client: SYN-ACK
 > 先是客户端开口，发一个 SYN，意思是"我想跟你建个连接"。
 > [Server] 听到了，回一个 SYN-ACK："收到，我这边也没问题。"`;
 
-const ALWAYS_RULE = '帮我打开 Answer me with HTML 的高频模式：在你的全局规则文件里加一条规则——"[answer-me-with-html always-on] 只要回复里给出了结论、总结、方案、对比、评审或讲解，就同时用 answer-me-with-html skill 生成一页 HTML（日常结论用 2～4 个面板），先渲染页面，再写文字回复，回复最后按 SKILL.md 对当前宿主的要求附上页面链接，不要先写文字再渲染。哪怕回答很短也要出，不要因为答案不长就跳过。渲染时加 --no-open，不要弹出浏览器。闲聊、没有结论的一两句话、纯命令输出、我要求纯文本时除外。另外，子 Agent 向父 Agent 汇报属于内部材料，不是给用户的回复：按父 Agent 的要求返回完整结论与证据，除了任务明确要求出页面，否则不要生成页面。"';
-
 // 脚本运行时读取的文字（{n}、{ms} 等由脚本填入）。
 const ui = {
   lang: 'zh',
@@ -339,7 +337,7 @@ export default {
   s6_catalog: '浏览主题库',
 
   s7_title: '讲解视频',
-  s7_lede: 'Karpathy 说的"理解 LLM 输出"阶梯，最后一级就是讲解视频。直接说"给 TCP 握手做个 3b1b 风格的视频"就行。下面就是一个真实的 <code>am video</code> 播放页。',
+  s7_lede: '选中 <code>answer-me-with-html</code> 后，可以要求生成视频，例如「给 TCP 握手做个 3b1b 风格的视频」。下面是一个真实的 <code>am video</code> 播放页。',
   s7_frame_title: 'am video 生成的讲解视频播放页',
   video_page: 'video-zh.html',
   v1_t: '逐步构建',
@@ -410,11 +408,11 @@ export default {
   i_manual: '手动安装',
   i_manual_d: '把 <code>skills/answer-me-with-html</code> 目录放进你的 Agent 的 skill 目录。以 Claude Code 为例：',
   i_manual_note: '其他 Agent 的 skill 目录：Codex 是 <code>~/.codex/skills/</code>，Cursor 是 <code>~/.cursor/skills/</code>，OpenCode 是 <code>~/.config/opencode/skill/</code>。',
-  i_always_k: '推荐',
-  i_always_t: '高频模式',
-  i_always_d: '默认只有问题需要时 Agent 才出页面。打开高频模式后，每个结论、总结、方案或对比都会附一页 2～4 个面板的小页面，只生成、不弹出。把下面这段话发给 Agent，让它写进自己的规则文件：',
-  i_always_prompt: ALWAYS_RULE,
-  i_always_note: '想关掉，把这条规则从文件里删掉即可。',
+  i_invoke_k: '用法',
+  i_invoke_t: '调用 Skill',
+  i_invoke_d: '每次需要时，在当前请求里选中该 skill。支持按名称选择的 Agent 可以直接接收这条请求：',
+  i_invoke_prompt: '用 answer-me-with-html skill 讲讲 TCP 三次握手。',
+  i_invoke_note: '在 Claude Code 中，插件用 <code>/answer-me-with-html:answer-me-with-html</code>，独立安装的 skill 用 <code>/answer-me-with-html</code>，再接上你的问题。',
   i_req_k: '依赖',
   i_req_npm: '不需要',
   i_req_net: '联网',

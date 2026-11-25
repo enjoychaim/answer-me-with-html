@@ -421,10 +421,10 @@ am serve --tailscale  # listen on your Tailscale address only; open the links fr
 
 **Cleaning up.** Pages, videos and the narration cache build up in `~/.answer-me-with-html/`. If that folder grows past 200 MB, or passes 20 MB with no cleanup for 30 days, the agent asks once a week whether to clean it. Nothing is deleted without your OK.
 
-- `/answer-me-with-html:clean` (plugin), or say "clean up the pages", previews first and then asks.
+- `/answer-me-with-html:clean` (plugin), or select the standalone skill and pass `clean`. The agent previews the cleanup and asks for confirmation.
 - `am clean` deletes pages, videos and saved drafts older than 30 days and empties the narration cache. `--days N` changes the cutoff, `--all` removes every page, video and draft, and `--dry-run` only shows what would go. Your settings and themes are always kept. If `pages`, `videos` or `cache` is itself a symlink, it is skipped: `am clean` never touches the files it points to, and the size count and cleanup hint ignore it. A folder that cannot be read is skipped too: its files are left out of the size count and the cleanup hint, so the size you see can be lower than the real use, and `am clean` does not delete them.
 
-**Old always-on plugin.** It is gone from this repository, but your copy keeps adding the reminder until you remove it. Run `/plugin uninstall answer-me-with-html-always@answer-me-with-html`, then add the always-on rule from the [README](../README.md#always-on-mode-recommended).
+**Prior automatic invocation.** If you enabled automatic invocation before, remove the corresponding rule from your agent's instructions. If the old `answer-me-with-html-always` plugin is still installed, remove it with `/plugin uninstall answer-me-with-html-always@answer-me-with-html`.
 
 ## Settings
 
@@ -445,17 +445,9 @@ Settings live in `~/.answer-me-with-html/config.json`. A theme written in a draf
 
 `close_after_reply` applies to pages made while it is on. A page that `am serve` sends keeps its answers on the server, so with this setting on they survive the closed tab; the clipboard still holds the reply. A browser refuses to close a tab after a link in the page has moved it (for example a contents link), and then the page says that you can close the tab yourself.
 
-## Less proactive
+## Invoke the skill
 
-By default the agent makes a page whenever one would help. If that is too much, pick one of two ways. Do not combine either with always-on mode.
-
-**Only when you ask in words.** Add this rule to your rules file, such as `~/.claude/CLAUDE.md` or `AGENTS.md`:
-
-> Do not use the answer-me-with-html skill unless I ask for a page, a diagram or a visual explanation, or say I don't get it.
-
-The rule survives updates. The agent still sees the skill, so it follows the rule by judgment.
-
-**Only with the slash command (Claude Code).** Add `disable-model-invocation: true` to the frontmatter of the installed `SKILL.md`, such as `~/.claude/skills/answer-me-with-html/SKILL.md`. The agent then never sees the skill, and a page appears only when you type `/answer-me-with-html`. An update replaces the file, so add the line again afterwards. See the [Claude Code skills docs](https://code.claude.com/docs/en/skills).
+Select `answer-me-with-html` for each request that should use it. Use `/answer-me-with-html:answer-me-with-html` for the Claude Code plugin and `/answer-me-with-html` for a standalone Claude Code install. The skill ships with `disable-model-invocation: true` for Claude Code. On hosts that support selection by name, explicitly ask to use the `answer-me-with-html` skill. See the [Claude Code skills docs](https://code.claude.com/docs/en/skills) for slash commands.
 
 ## Writing check
 

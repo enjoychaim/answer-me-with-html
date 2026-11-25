@@ -197,7 +197,7 @@ function flash(btn, ok) {
   toast(ok ? UI.copied : UI.copyFailed);
 }
 for (const btn of $$('.copy-btn')) {
-  const method = btn.closest('.tab-panel')?.id.replace(/^ip-/, '') || 'always-on';
+  const method = btn.closest('.tab-panel')?.id.replace(/^ip-/, '') || 'skill-invocation';
   btn.addEventListener('click', async () => {
     track('install-copy', { method });
     flash(btn, await copyText(btn.parentElement.querySelector('pre').textContent));

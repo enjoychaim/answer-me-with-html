@@ -37,13 +37,13 @@ Explore Zapply's Chrome extension for autofilling job applications, dedicated jo
 </p>
 
 <p align="center">
-  <a href="https://answer-me-with-html.com/"><b>Website</b></a> · <a href="#install">Install</a> · <a href="#what-you-ask-what-you-get">Examples</a> · <a href="#explainer-videos">Videos</a> · <a href="#always-on-mode-recommended">Always-on mode</a> · <a href="docs/reference.md">Reference</a> · <a href="README.zh-CN.md">简体中文</a> · <a href="README.ja.md">日本語</a>
+  <a href="https://answer-me-with-html.com/"><b>Website</b></a> · <a href="#install">Install</a> · <a href="#what-you-ask-what-you-get">Examples</a> · <a href="#explainer-videos">Videos</a> · <a href="#invoke-the-skill">Invoke</a> · <a href="docs/reference.md">Reference</a> · <a href="README.zh-CN.md">简体中文</a> · <a href="README.ja.md">日本語</a>
 </p>
 
 Once installed, ask questions the way you always do:
 
 ```
-> Explain the TCP three-way handshake
+> Use the `answer-me-with-html` skill to explain the TCP three-way handshake.
 > Map out how the modules in this repo fit together
 > Redis or Memcached for our cache?
 ```
@@ -133,9 +133,11 @@ Skill folders for other agents: Codex `~/.codex/skills/`, Cursor `~/.cursor/skil
 
 </details>
 
-No setup is needed after install. **We recommend turning on [always-on mode](#always-on-mode-recommended)**: the agent then adds a page to every conclusion, not only the hard ones. It takes one rule in your rules file.
+No setup is needed after install. [Select the skill explicitly](#invoke-the-skill) when you want to use it.
 
 ## What you ask, what you get
+
+After selecting `answer-me-with-html`, you can ask any of these questions.
 
 | You ask | You get |
 | :--- | :--- |
@@ -147,8 +149,6 @@ No setup is needed after install. **We recommend turning on [always-on mode](#al
 | "Plan the cache change" | The real code from your files, and the open decisions as options you answer on the page |
 | "How do I show hidden files with `ls`?" | No page. A one-line question gets a one-line answer |
 
-The agent decides when a page is worth it: related concepts, multi-step flows, multi-way comparisons. You can also just say "explain it in HTML".
-
 Pages are saved in `~/.answer-me-with-html/pages/`. The buttons in the top-right corner switch the theme and light/dark mode, collect your reply, and copy the Markdown that produced the page.
 
 ## How is this different from Archify or GenUI plugins?
@@ -157,7 +157,7 @@ Pages are saved in `~/.answer-me-with-html/pages/`. The buttons in the top-right
 
 ## Explainer videos
 
-Karpathy's ladder for understanding LLM output ends with explainer videos. Ask for one in 3Blue1Brown style: "make a 3b1b-style video on the TCP handshake".
+Select `answer-me-with-html` and ask for a 3Blue1Brown-style video, such as “make a 3b1b-style video on the TCP handshake”.
 
 <p align="center"><img src="docs/images/video-en.png" alt="Four frames from a generated explainer video in the blueprint style: title card, a sequence diagram with the Server highlighted, a flow diagram, and a comparison table" width="820"></p>
 
@@ -182,24 +182,18 @@ Change settings with a slash command. There are no config files to edit by hand.
 | Where | How |
 | :--- | :--- |
 | Claude Code (plugin install) | `/answer-me-with-html:config` asks what to change. `/answer-me-with-html:config open off` changes it directly |
-| Any agent | `/answer-me-with-html config open off`, or just say "stop opening the browser" |
+| Standalone skill | Select `answer-me-with-html` with `config open off` |
 | Terminal | `am config` to view, `am config set open off` to change, `am config reset` to restore defaults |
 
 The settings are `open` (open pages in the browser), `theme`, `mode` (light or dark), `style` (writing check), `scale` (text size on the page; diagrams and charts grow with it), `update_check`, `close_after_reply` (close the tab after the reply is copied) and `voice` (video narration). Defaults and values: [reference](docs/reference.md#settings).
 
-## Always-on mode (recommended)
+## Invoke the skill
 
-With always-on mode, **every conclusion comes with a page**: whenever the agent gives a conclusion, summary, plan or comparison, even a short one, it adds a small page with 2 to 4 panels and puts the path at the end of the reply. These pages never pop open, so they don't interrupt you. Casual chat and replies with no conclusion stay as they are. Claude Code makes no pages in plan mode.
-
-It is off by default. We recommend it: you stop asking for pages, and short answers read as well as long ones. Pages pile up in `~/.answer-me-with-html/`; clear them with `am clean`. To turn it on, paste this to your agent so it writes the rule into its rules file, such as `~/.claude/CLAUDE.md` or `AGENTS.md`:
-
-> Turn on always-on mode for Answer me with HTML: add a global rule — "[answer-me-with-html always-on] Whenever a reply gives a conclusion, summary, plan, comparison, review or explanation, even a short one, also make a page with the answer-me-with-html skill (2 to 4 panels for routine answers), render it with --no-open before you write the reply, and end the reply with the page link in the format SKILL.md specifies for your host. Skip casual chat, one- or two-sentence replies with no conclusion, pure command output, and requests for plain text. An internal report to another agent is not a user reply: return the findings and evidence the parent asked for, and make no page unless the task explicitly asks for one."
-
-To turn it off, delete that rule. Want fewer pages instead? See [less proactive](docs/reference.md#less-proactive).
+Select `answer-me-with-html` in each request that should use it. For the Claude Code plugin, use `/answer-me-with-html:answer-me-with-html`. For a standalone Claude Code install, use `/answer-me-with-html`. On hosts that support selection by name, ask the agent to use the `answer-me-with-html` skill.
 
 ## Updating and cleaning up
 
-Updates are manual. When used, the CLI checks GitHub for a new version in the background at most once a day. If one is available, it prompts the agent at most once every three days; nothing about you is sent. To update, tell your agent "update answer-me-with-html". Pages pile up in `~/.answer-me-with-html/`. Say "clean up the pages", and the agent asks before it deletes anything. Other install methods and every option: [reference](docs/reference.md#updating-and-cleaning-up).
+Updates are manual. When used, the CLI checks GitHub for a new version in the background at most once a day. If one is available, it prompts the agent at most once every three days. It sends no information about you. To update, tell your agent "update answer-me-with-html". To clean up pages in `~/.answer-me-with-html/`, use `/answer-me-with-html:clean` or select the skill and pass `clean`. The agent asks before deleting anything. See the [reference](docs/reference.md#updating-and-cleaning-up) for other install methods and options.
 
 ## Background
 

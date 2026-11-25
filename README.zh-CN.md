@@ -34,7 +34,7 @@ Explore Zapply's Chrome extension for autofilling job applications, dedicated jo
 </p>
 
 <p align="center">
-  <a href="https://answer-me-with-html.com/zh/"><b>官网</b></a> · <a href="#安装">安装</a> · <a href="#你说什么会得到什么">示例</a> · <a href="#解释视频">视频</a> · <a href="#高频模式推荐">高频模式</a> · <a href="docs/reference.zh-CN.md">参考文档</a> · <a href="README.md">English</a> · <a href="README.ja.md">日本語</a>
+  <a href="https://answer-me-with-html.com/zh/"><b>官网</b></a> · <a href="#安装">安装</a> · <a href="#你说什么会得到什么">示例</a> · <a href="#调用-skill">调用 Skill</a> · <a href="#解释视频">视频</a> · <a href="docs/reference.zh-CN.md">参考文档</a> · <a href="README.md">English</a> · <a href="README.ja.md">日本語</a>
 </p>
 
 <!-- <p align="center">
@@ -44,7 +44,7 @@ Explore Zapply's Chrome extension for autofilling job applications, dedicated jo
 装好之后，像平时一样提问就行：
 
 ```
-> 讲讲 TCP 三次握手和四次挥手
+> 用 `answer-me-with-html` skill 讲讲 TCP 三次握手和四次挥手。
 > 画一下这个仓库的模块关系
 > Redis 和 Memcached 该怎么选
 ```
@@ -134,9 +134,11 @@ cp -R /tmp/answer-me-with-html/skills/answer-me-with-html ~/.claude/skills/answe
 
 </details>
 
-装好后不需要任何配置。**建议打开[高频模式](#高频模式推荐)**：Agent 会给每个结论都附一页，而不只是复杂问题。只需要在规则文件里加一条规则。
+装好后无需配置。需要时，在当前请求里[明确调用 skill](#调用-skill)。
 
 ## 你说什么，会得到什么
+
+先选中 `answer-me-with-html`，再提出下面这类问题。
 
 | 你说 | 你会得到 |
 | :--- | :--- |
@@ -148,8 +150,6 @@ cp -R /tmp/answer-me-with-html/skills/answer-me-with-html ~/.claude/skills/answe
 | "给缓存改造做个方案" | 直接引用文件里的真实代码，待定的问题做成选项，在页面上就能回答 |
 | "`ls` 怎么看隐藏文件" | 不出页面。一句话能说清的问题照常回答 |
 
-要不要出页面由 Agent 判断：概念之间关系复杂、有多步流程、要做多维对比，才会出页面。你也可以直接说"用 HTML 讲一下……"。
-
 页面保存在 `~/.answer-me-with-html/pages/`。页面右上角可以切换主题、切换亮暗、汇总你的回复，也可以复制生成这一页的 Markdown 原稿。
 
 ## 和 Archify、GenUI 插件有什么不同？
@@ -158,7 +158,7 @@ cp -R /tmp/answer-me-with-html/skills/answer-me-with-html ~/.claude/skills/answe
 
 ## 解释视频
 
-Karpathy 说的"理解 LLM 输出"阶梯，最后一级是 3Blue1Brown 风格的解释视频。直接说"给 TCP 握手做个 3b1b 风格的视频"就行。
+选中 `answer-me-with-html` 后，可以要求生成 3Blue1Brown 风格的视频，例如「给 TCP 握手做个 3b1b 风格的视频」。
 
 <p align="center"><img src="docs/images/video-zh.png" alt="blueprint 风格解释视频中的四帧：片头、高亮 Server 的时序图、流程图、对比表" width="820"></p>
 
@@ -183,24 +183,18 @@ Server -> Client: SYN-ACK
 | 在哪里 | 怎么改 |
 | :--- | :--- |
 | Claude Code（插件安装） | `/answer-me-with-html:config` 会问你要改什么；`/answer-me-with-html:config open off` 直接改 |
-| 任意 Agent | `/answer-me-with-html config open off`，或者直接说"别再自动弹浏览器了" |
+| 独立安装的 skill | 选中 `answer-me-with-html`，传入 `config open off` |
 | 终端 | `am config` 查看，`am config set open off` 修改，`am config reset` 恢复默认 |
 
 配置项有 `open`（自动打开浏览器）、`theme`、`mode`（亮色或暗色）、`style`（写作检查）、`scale`（页面文字大小，图表跟着变大）、`update_check`、`close_after_reply`（复制回复后关闭标签页）和 `voice`（视频配音）。默认值和可选值见[参考](docs/reference.zh-CN.md#配置)。
 
-## 高频模式（推荐）
+## 调用 Skill
 
-打开高频模式后，**每个结论都会附一页**：只要这一轮给出了结论、总结、方案或对比，哪怕回答很短，Agent 也会顺手出一页 2～4 个面板的小页面，并在回复最后附上路径。这些页面只生成、不弹出，不会打断你手上的事。闲聊、没有结论的一两句话不受影响。Claude Code 处于 plan 模式时不会出页面。
-
-默认是关的。建议打开：不用每次开口要页面，短结论也和长篇一样好读。页面会堆在 `~/.answer-me-with-html/` 里，用 `am clean` 清理。想打开，把下面这段话粘贴给你的 Agent，让它写进自己的规则文件（比如 `~/.claude/CLAUDE.md` 或 `AGENTS.md`）：
-
-> 帮我打开 Answer me with HTML 的高频模式：在你的全局规则文件里加一条规则——"[answer-me-with-html always-on] 只要回复里给出了结论、总结、方案、对比、评审或讲解，就同时用 answer-me-with-html skill 生成一页 HTML（日常结论用 2～4 个面板），先渲染页面，再写文字回复，回复最后按 SKILL.md 对当前宿主的要求附上页面链接，不要先写文字再渲染。哪怕回答很短也要出，不要因为答案不长就跳过。渲染时加 --no-open，不要弹出浏览器。闲聊、没有结论的一两句话、纯命令输出、我要求纯文本时除外。另外，子 Agent 向父 Agent 汇报属于内部材料，不是给用户的回复：按父 Agent 的要求返回完整结论与证据，除了任务明确要求出页面，否则不要生成页面。"
-
-想关掉，把这条规则删掉即可。想让页面少一点？见[少一点主动](docs/reference.zh-CN.md#少一点主动)。
+每次需要时都显式选择 `answer-me-with-html`。Claude Code 插件使用 `/answer-me-with-html:answer-me-with-html`，独立安装的 Claude Code skill 使用 `/answer-me-with-html`。支持按名称选择 skill 的 Agent 可以直接接收「用 `answer-me-with-html` skill」这样的请求。
 
 ## 更新与清理
 
-需要手动更新。使用时，CLI 最多每天在后台向 GitHub 查一次新版本；有新版本时，最多每三天向 Agent 提示一次，不会上传任何内容。想更新，对 Agent 说"更新一下 answer-me-with-html"。页面会堆在 `~/.answer-me-with-html/` 里，说"清理一下页面"，Agent 会先问你再删。其他安装方式和全部选项见[参考](docs/reference.zh-CN.md#更新与清理)。
+需要手动更新。使用时，CLI 最多每天在后台向 GitHub 查一次新版本，有新版本时最多每三天提示一次。更新时可以明确要求更新 `answer-me-with-html`。清理 `~/.answer-me-with-html/` 中的页面时，用 `/answer-me-with-html:clean` 或选中 skill 并传入 `clean`，Agent 会先确认。其他安装方式和选项见[参考](docs/reference.zh-CN.md#更新与清理)。
 
 ## 为什么做这个
 

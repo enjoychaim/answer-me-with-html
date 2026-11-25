@@ -26,10 +26,3 @@ test('step 5: that choice tool is the one call allowed after the reply, on those
   assert.match(step, /No tool call comes after the reply, except the choice tool/);
   assert.match(step, /your host can ask questions/);
 });
-
-// Always-on mode is where the old ordering was most likely to be followed blindly.
-test('always-on ordering bullet names the same condition', () => {
-  const bullet = SKILL.split('\n').find((l) => l.startsWith('- Order: render the page first')) ?? '';
-  assert.ok(bullet, 'the always-on ordering bullet is gone');
-  assert.match(bullet, /when your host can ask questions/);
-});

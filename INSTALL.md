@@ -14,7 +14,6 @@ DONE WHEN: `node <skill dir>/scripts/am.mjs --version` prints a version number, 
 - Run only the commands in this file. Do not clone the repository or build anything. The CLI is already bundled in the skill.
 - Install **one** way per agent. A skill and a plugin with the same name load twice and their instructions conflict.
 - Never remove or overwrite an existing install. If one exists, keep it (Step 2).
-- Do not add the always-on rule to any rules file yourself. Recommend it in the report and ask (Step 5).
 - Put the commands of one step in a single shell call, so I approve as few prompts as possible.
 
 ## TODO
@@ -99,14 +98,23 @@ DSH's default sandbox lets commands write only in the workspace and `/tmp`. When
 
 ## Step 4: Check that it works
 
-For a skill install:
+For a skill install, check the version and render a page directly with the bundled CLI:
 
-```bash
+````bash
 dir=$(ls -d ~/.agents/skills/answer-me-with-html ~/.claude/skills/answer-me-with-html 2>/dev/null | head -1)
 node "$dir/scripts/am.mjs" --version
-```
+node "$dir/scripts/am.mjs" render - --no-open <<'AM_EOF'
+# TCP three-way handshake
 
-Claude Code keeps the skill in `~/.claude/skills`; most other agents read `~/.agents/skills`. The first line finds whichever exists. Then use the skill to make a page that explains the TCP three-way handshake, with `--no-open` so no browser window pops up.
+## Open a connection
+
+```sequence
+Client -> Server: SYN
+Server -> Client: SYN-ACK
+Client -> Server: ACK
+```
+AM_EOF
+````
 
 For a plugin install, the skill loads after the reload. Run `claude plugin list` and check that it is enabled. Do not wait for the reload.
 
@@ -122,7 +130,7 @@ Send one message. Keep it to these lines:
 2. The result of the check, and the path of the TCP page if you made one.
 3. What I still need to do, if anything (for example `/reload-plugins`). Say "nothing" if there is nothing.
 4. How to change settings: `/answer-me-with-html:config` for the plugin, or `/answer-me-with-html config` for the skill.
-5. One line: we recommend always-on mode, which adds a small page to every answer with a conclusion. Ask whether I want it, and do not add it yourself. The rule is in "Always-on mode" in [README.md](README.md).
+5. How to invoke the skill for one request: `/answer-me-with-html:answer-me-with-html` for the plugin, or `/answer-me-with-html` for a standalone skill on hosts with slash commands.
 
 ## Troubleshooting
 
