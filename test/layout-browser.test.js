@@ -17,6 +17,7 @@ const SKIP = process.env.AM_E2E !== '1'
   : !CHROME ? 'no Chrome found (set AM_CHROME)' : typeof WebSocket === 'undefined' ? 'needs Node 22 (built-in WebSocket)' : false;
 
 const DESKTOP = 1440;
+const ULTRAWIDE = 2200;
 const TABLET = 1000;
 const PHONE = 390;
 const A4_PORTRAIT = 794; // CSS px: A4 at 96 dpi, before margins
@@ -465,6 +466,18 @@ test('e2e: sheet pages lay out as justified rows at 1440 px, and a re-layout aft
     assert.ok(took < BUDGET_MS, `${p.name}: re-layout took about ${took} ms (budget ${BUDGET_MS} ms)`);
     console.log(`  re-layout ${p.name}: about ${took} ms, ${m.rows.length} rows, ${m.order.length} panels`);
   }
+});
+
+test('e2e: a sheet uses the full available width on an ultrawide screen', { skip: SKIP, timeout: 120000 }, async () => {
+  if (!cdp) await launch();
+  const p = pages.find((x) => x.name === 'tcp');
+  assert.ok(p, 'tcp page');
+  await open(p.file, ULTRAWIDE);
+  await waitFor(SETTLED, `${p.name} to lay out at ${ULTRAWIDE}px`);
+  const m = await measure();
+  assertJustified(p.name, ULTRAWIDE, m, p.ids);
+  assert.equal(m.width, ULTRAWIDE - 56, 'the grid fills the viewport inside the sheet padding');
+  assert.equal(m.gridLeft, 28, 'the sheet keeps only its horizontal padding at the viewport edge');
 });
 
 // Panels that sit alone in a row are only right when the author asked for it (these drafts have no span).
